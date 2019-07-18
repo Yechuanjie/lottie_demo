@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PageHead from '../../components/pagehead';
+import PageHead from '../../components/pagehead/pagehead';
 
 const About: React.FC = function() {
   return(

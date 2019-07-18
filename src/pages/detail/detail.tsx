@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { match } from 'react-router-dom';
 import lottie from 'lottie-web';
 import lottieAnimation from '../../assets/lottieFiles/animation.json';
 
-import PageHead from '../../components/pagehead';
-// type Props={
-//   children?: React.ReactNode;
-//   [prop: string]: any;
-// }
-const Detail: React.FC<any> = (props, d) => {
+import PageHead from '../../components/pagehead/pagehead';
+
+interface IProps {
+  [props: string]: any
+}
+
+const Detail: React.FC<IProps> = (props) => {
   const [anim, setAnim] = useState();
-  console.info(props.match.params.id);
+  // console.info(props.match.params.id);
   useEffect(() => {
     const element = document.querySelector('.lottie_wrap');
     const ins = lottie.loadAnimation({
@@ -22,12 +22,10 @@ const Detail: React.FC<any> = (props, d) => {
       animationData: lottieAnimation
     });
     setAnim(ins);
-    return () => {
-      
-    }
   }, []);
   // 开始动画
   const startAnim = () => {
+    console.info(props.match.params.id);
     console.info(anim);
     anim.goToAndStop(anim.totalFrames - 10, 1)
   }
