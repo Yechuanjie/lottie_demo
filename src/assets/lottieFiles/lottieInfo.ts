@@ -1,15 +1,15 @@
+const resource = [
+  'https://assets1.lottiefiles.com/packages/lf20_V2yuoK.json',
+  'https://assets10.lottiefiles.com/packages/lf20_mHMuHN.json'
+];
 
-// interface Lottie {
-//   id: number,
-//   name: string
-// }
-let lotties: Array<Lottie> = new Array<Lottie>(10);
-let n = Array.from(lotties);
-let m = n.map((item, index) => {
-  item = {
+const lotties: Array<Lottie> = new Array<Lottie>(resource.length);
+const arr = Array.from(lotties);
+let lottieList = arr.map((item, index) => {
+  return {
     id: index + 1,
-    name: `anim_${index + 1}`
+    name: `lottie_file_${index + 1}`,
+    source: resource[index]
   }
-  return item;
 })
-export default m;
+export default lottieList;

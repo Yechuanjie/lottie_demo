@@ -10,7 +10,6 @@ import List from '../../components/list/list';
 console.log(lottieList);
 
 const Index: React.FC = () => {
-  // 暂停动画
   return (
     <div className="index_page">
       <PageHead></PageHead>

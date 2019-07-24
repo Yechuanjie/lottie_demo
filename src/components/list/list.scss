@@ -1,6 +1,12 @@
-.link {
-  width: 100%;
-  text-align: center;
-  font-size: 25px;
-  margin-bottom: 20px;
+ul {
+  padding: 15px;
+  li {
+    list-style: none;
+    margin-top: 10px;
+    a {
+      text-decoration: underline;
+      font-size: 18px;
+      color: brown;
+    }
+  }
 }

@@ -1,6 +1,7 @@
 interface Lottie {
   id: number,
-  name: string
+  name: string,
+  source: string
 }
 interface Lotties {
   lotties: Array<Lottie>

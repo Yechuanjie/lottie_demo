@@ -4,13 +4,14 @@ import Index from './index/index';
 import About from './about/about';
 import Detail from './detail/detail';
 import NotFound from './404/404';
+
 const App: React.FC = () => {
   return (
     <HashRouter>
       <Switch>
         <Route exact path="/" component={Index} />
         <Route exact path="/about" component={About} />
-        <Route exact path="/detail/:id" component={Detail} />
+        <Route exact path="/detail" component={Detail} />
         {/* 404 */}
         <Route component={NotFound}></Route>
       </Switch>
