@@ -7,7 +7,6 @@ const PageHead: React.FC = function () {
     <nav className="header">
       <Link to="/" >首页</Link>
       <Link to="/about">关于</Link>
-      {/* <Link to="/detail/1">详情</Link> */}
     </nav>
   );
 }
