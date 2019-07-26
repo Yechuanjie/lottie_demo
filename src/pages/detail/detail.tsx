@@ -28,8 +28,8 @@ const Detail: React.FC<IProps> = (props) => {
   }
 
   useEffect(() => {
-    const loadResource = async (source: string) => {
-      const response = await fetch(source);
+    const loadResource = async (sourceurl: string) => {
+      const response = await fetch(sourceurl);
       const data = await response.json();
       initLottieAnimation(data);
     }
