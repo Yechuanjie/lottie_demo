@@ -1,0 +1,16 @@
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .play_wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .play {
+      width: 30px;
+      height: 30px;
+      display: block;
+    }
+  }
+}
