@@ -1,5 +1,13 @@
+.detail_page {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
 .lottie_wrap {
-  width: 100vw;
+  // width: 100vw;
   // height: 40vh;
 }
 
