@@ -1,16 +1,43 @@
 .control {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  padding: 10px 20px;
+
   .play_wrap {
+    width: 20vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     .play {
       width: 30px;
       height: 30px;
       display: block;
+    }
+
+    span {
+      color: #d4237a;
+    }
+  }
+
+  .speed_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f1f5f8;
+    border: 1px solid #dae1e7;
+    border-radius: 5px;
+    margin-top: 15px;
+    padding: 0 10px;
+    .speed_icon {
+      display: flex;
+      align-items: center;
+      img {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+      }
     }
   }
 }
