@@ -77,9 +77,57 @@ const Detail: React.FC<IProps> = (props) => {
     anim.setSpeed(nowspeed);
   }
 
+  // getDuration
+  const [duration, setduration] = useState();
+  const [frames, setframes] = useState();
+  const getDuration = (type?: boolean) => {
+    const a = anim.getDuration(type);
+    console.info(a);
+    type ? setframes(a) : setduration(a);
+  }
+
+  //setdirection
+  const [direction, setdirection] = useState(1);
+  const setDirection = () => {
+    let dr = direction > 0 ? -1 : 1
+    setdirection(dr);
+    anim.stop();
+    anim.setDirection(dr);
+    anim.play();
+    setPlay(true);
+    setnowFrame(0);
+  }
+
+  //goToAndPlay
+  const goToAndPlay = () => {
+    const half = Math.floor(anim.totalFrames / 2);
+    console.info(half);
+    setnowFrame(half);
+    setPlay(true);
+    anim.goToAndPlay(half, true);
+  }
+
+  //goToAndPlay
+  const goToAndStop = () => {
+    const half = Math.floor(anim.totalFrames / 2);
+    console.info(half);
+    setnowFrame(half);
+    setPlay(false);
+    anim.goToAndStop(half, true);
+  }
+
+  //playSegments
+  const playSegments = (arr: Array<any>, type: boolean) => {
+    anim.stop();
+    anim.playSegments(arr, type);
+    setPlay(true);
+    setframes(10);
+    getDuration(true);
+    getDuration(false);
+  }
+
   return (
     <div className="detail_page">
-      {/* <PageHead></PageHead> */}
       <div className="lottie_wrap"></div>
       {anim &&
         <div className="control">
@@ -93,6 +141,27 @@ const Detail: React.FC<IProps> = (props) => {
               <span>动画速度</span>
             </div>
             <span className="speed">{speed}x</span>
+          </div>
+          <div className="speed_wrap" onClick={() => getDuration(false)}>
+            <span>{ (duration && `动画时间：${duration} 秒`) || '点击获取动画时间'}</span>
+          </div>
+          <div className="speed_wrap" onClick={() => getDuration(true)}>
+            <span>{ (frames && `动画总帧数：${frames} 帧`) || '点击获取动画帧数'}</span>
+          </div>
+          <div className="speed_wrap" onClick={setDirection}>
+            <span>{ `点击改变动画方向  当前` + (direction < 0  ? '反向' : '正向')}</span>
+          </div>
+          <div className="speed_wrap" onClick={goToAndPlay}>
+            <span>{ `点击前进到动画的1/2帧 并继续播放`}</span>
+          </div>
+          <div className="speed_wrap" onClick={goToAndStop}>
+            <span>{ `点击前进到动画的1/2帧 并停止播放`}</span>
+          </div>
+          <div className="speed_wrap" onClick={() => playSegments([0, 10], false)}>
+            <span>{ `点击播放第0帧到第10帧动画 等待当前动画完成后执行`}</span>
+          </div>
+          <div className="speed_wrap" onClick={() => playSegments([0, 10], true)}>
+            <span>{ `点击播放第0帧到第10帧动画 立即执行`}</span>
           </div>
         </div>
       }

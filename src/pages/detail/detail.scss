@@ -1,3 +1,8 @@
+.lottie_wrap {
+  width: 100vw;
+  // height: 40vh;
+}
+
 .control {
   display: flex;
   flex-direction: column;
@@ -29,10 +34,12 @@
     border: 1px solid #dae1e7;
     border-radius: 5px;
     margin-top: 15px;
-    padding: 0 10px;
+    padding: 5px 10px;
+
     .speed_icon {
       display: flex;
       align-items: center;
+
       img {
         width: 30px;
         height: 30px;
