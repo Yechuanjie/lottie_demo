@@ -125,6 +125,9 @@ const Detail: React.FC<IProps> = (props) => {
     getDuration(true);
     getDuration(false);
   }
+  const destroyAnim = () => {
+    anim.destroy();
+  }
 
   return (
     <div className="detail_page">
@@ -162,6 +165,9 @@ const Detail: React.FC<IProps> = (props) => {
           </div>
           <div className="speed_wrap" onClick={() => playSegments([0, 10], true)}>
             <span>{ `点击播放第0帧到第10帧动画 立即执行`}</span>
+          </div>
+          <div className="speed_wrap" onClick={destroyAnim}>
+            <span>{`移除动画`}</span>
           </div>
         </div>
       }
