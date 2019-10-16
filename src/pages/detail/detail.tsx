@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useContext } from 'react';
-import lottie, { AnimationItem, AnimationConfig } from 'lottie-web';
+import React, { useEffect, useState } from 'react';
+import lottie from 'lottie-web';
 import queryString from 'query-string'
 
-import PageHead from '../../components/pagehead/pagehead';
 import startIcon from '../../assets/images/start.svg';
 import pauseIcon from '../../assets/images/pause.svg';
 import speedIcon from '../../assets/images/fast-forward.svg';
@@ -14,29 +13,8 @@ interface IProps {
 
 const Detail: React.FC<IProps> = (props) => {
   const parsed = queryString.parse(props.location.search);
-  const { id, name, source } = parsed;
-  const [totalFrame, setTotalFrame] = useState(0);
-  /**
-   *初始化动画
-   * @param {JSON} animationData
-   */
-  const [nowFrame, setnowFrame] = useState(0);
-  const initLottieAnimation = async (animationData: JSON) => {
-    const element = document.querySelector('.lottie_wrap');
-    const lottieObject = await lottie.loadAnimation({
-      container: element as Element, // the dom element that will contain the animation
-      renderer: 'svg',
-      name: name as string,
-      loop: true,
-      autoplay: true,
-      animationData
-    });
-    lottieObject.addEventListener('enterFrame', (i) => {
-      setnowFrame(Math.floor(i.currentTime));
-    })
-    return lottieObject;
-  }
-
+  const { name, source } = parsed;
+  // const [totalFrame, setTotalFrame] = useState(0);
   /**
    * 加载远程json文件
    * @param {string} sourceurl
@@ -49,13 +27,34 @@ const Detail: React.FC<IProps> = (props) => {
   }
 
   const [anim, setAnim] = useState();
+  const [nowFrame, setnowFrame] = useState(0);
+
   useEffect(() => {
+    /**
+     *初始化动画
+    * @param {JSON} animationData
+    */
+    const initLottieAnimation = async (animationData: JSON) => {
+      const element = document.querySelector('.lottie_wrap');
+      const lottieObject = await lottie.loadAnimation({
+        container: element as Element, // the dom element that will contain the animation
+        renderer: 'svg',
+        name: name as string,
+        loop: true,
+        autoplay: true,
+        animationData
+      });
+      lottieObject.addEventListener('enterFrame', (i) => {
+        setnowFrame(Math.floor(i.currentTime));
+      })
+      return lottieObject;
+    }
     loadResource(String(source)).then(async json => {
       const item = await initLottieAnimation(json);
       setAnim(item);
       console.info(item);
     });
-  }, [source]); // 当source改变时执行
+  }, [source, name]); // 当source, name改变时执行
 
   // 开始|暂停动画
   const [isPlay, setPlay] = useState(true);
@@ -66,7 +65,7 @@ const Detail: React.FC<IProps> = (props) => {
 
   // 设置速度
   const [speed, setspeed] = useState(1);
-  const changeSpeed = ()=> {
+  const changeSpeed = () => {
     let nowspeed = speed;
     if (nowspeed < 2.5) {
       nowspeed += 0.5;
@@ -146,25 +145,25 @@ const Detail: React.FC<IProps> = (props) => {
             <span className="speed">{speed}x</span>
           </div>
           <div className="speed_wrap" onClick={() => getDuration(false)}>
-            <span>{ (duration && `动画时间：${duration} 秒`) || '点击获取动画时间'}</span>
+            <span>{(duration && `动画时间：${duration} 秒`) || '点击获取动画时间'}</span>
           </div>
           <div className="speed_wrap" onClick={() => getDuration(true)}>
-            <span>{ (frames && `动画总帧数：${frames} 帧`) || '点击获取动画帧数'}</span>
+            <span>{(frames && `动画总帧数：${frames} 帧`) || '点击获取动画帧数'}</span>
           </div>
           <div className="speed_wrap" onClick={setDirection}>
-            <span>{ `点击改变动画方向  当前` + (direction < 0  ? '反向' : '正向')}</span>
+            <span>{`点击改变动画方向  当前` + (direction < 0 ? '反向' : '正向')}</span>
           </div>
           <div className="speed_wrap" onClick={goToAndPlay}>
-            <span>{ `点击前进到动画的1/2帧 并继续播放`}</span>
+            <span>{`点击前进到动画的1/2帧 并继续播放`}</span>
           </div>
           <div className="speed_wrap" onClick={goToAndStop}>
-            <span>{ `点击前进到动画的1/2帧 并停止播放`}</span>
+            <span>{`点击前进到动画的1/2帧 并停止播放`}</span>
           </div>
           <div className="speed_wrap" onClick={() => playSegments([0, 10], false)}>
-            <span>{ `点击播放第0帧到第10帧动画 等待当前动画完成后执行`}</span>
+            <span>{`点击播放第0帧到第10帧动画 等待当前动画完成后执行`}</span>
           </div>
           <div className="speed_wrap" onClick={() => playSegments([0, 10], true)}>
-            <span>{ `点击播放第0帧到第10帧动画 立即执行`}</span>
+            <span>{`点击播放第0帧到第10帧动画 立即执行`}</span>
           </div>
           <div className="speed_wrap" onClick={destroyAnim}>
             <span>{`移除动画`}</span>

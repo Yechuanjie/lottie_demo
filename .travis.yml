@@ -2,10 +2,10 @@ language: node_js
 node_js:
   - '10.15.3'
 before_script:
-  - npm install
-  - npm rebuild node-sass
+  - yarn install
+  - yarn rebuild node-sass
 script:
-  - npm run build
+  - yarn build
 after_script:
   - cd build
   - git init

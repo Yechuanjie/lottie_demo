@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './index.scss';
 import lottieList from '../../assets//lottieFiles/lottieInfo';
 
