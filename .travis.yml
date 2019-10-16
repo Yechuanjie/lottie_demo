@@ -3,7 +3,7 @@ node_js:
   - '10.15.3'
 before_script:
   - yarn install
-  - yarn rebuild node-sass
+  - npm rebuild node-sass
 script:
   - yarn build
 after_script:
