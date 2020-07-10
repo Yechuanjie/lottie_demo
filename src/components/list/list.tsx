@@ -13,9 +13,7 @@ const List: FC<Lotties> = (list) => {
             <Link
               to={{
                 pathname: `/detail`,
-                search: queryString.stringify({
-                  source: item.source,
-                }),
+                search: queryString.stringify(item),
               }}
             >
               {item.name}

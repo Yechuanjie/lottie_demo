@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import lottie, { AnimationItem } from "lottie-web";
 import queryString from "query-string";
 
@@ -44,7 +44,7 @@ const Detail: React.FC<IProps> = (props) => {
 
   const isUnmounted = useRef(false);
 
-  const init = (source: string): Promise<AnimationRealItem> => {
+  const init = useCallback((source: string): Promise<AnimationRealItem> => {
     return new Promise((resolve) => {
       /**
        *初始化动画
@@ -67,19 +67,22 @@ const Detail: React.FC<IProps> = (props) => {
         resolve(item);
       });
     });
-  };
+  }, [name]);
 
-  const initWithEvent = (source: string) => {
-    let item = {} as AnimationRealItem;
-    init(source).then((res) => {
-      item = res;
-      res.addEventListener("enterFrame", handler);
-      setAnim(res);
-    });
-    return () => {
-      item.totalFrames > 0 && item.removeEventListener("enterFrame", handler);
-    };
-  };
+  const initWithEvent = useCallback(
+    (source: string) => {
+      let item = {} as AnimationRealItem;
+      init(source).then((res) => {
+        item = res;
+        res.addEventListener("enterFrame", handler);
+        setAnim(res);
+      });
+      return () => {
+        item.totalFrames > 0 && item.removeEventListener("enterFrame", handler);
+      };
+    },
+    [init]
+  );
 
   useEffect(() => {
     if (lottieSourceUrl) {
@@ -88,7 +91,7 @@ const Detail: React.FC<IProps> = (props) => {
     return () => {
       isUnmounted.current = true;
     };
-  }, [lottieSourceUrl]);
+  }, [lottieSourceUrl, initWithEvent]);
 
   const handler = (i: { currentTime: number }) => {
     if (!isUnmounted.current) {
