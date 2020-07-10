@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import lottie, { AnimationItem } from "lottie-web";
 import queryString from "query-string";
 
@@ -18,27 +18,33 @@ type AnimationRealItem = AnimationItem & {
 
 const Detail: React.FC<IProps> = (props) => {
   const parsed = queryString.parse(props.location.search);
-  const { name, source } = parsed;
+  const { name, source } = parsed as {
+    name: string;
+    source: string;
+  };
+  const [lottieSourceUrl] = useState(source);
   // const [totalFrame, setTotalFrame] = useState(0);
 
-  const [isLoading, setisLoading] = useState(false)
+  const [isLoading, setisLoading] = useState(false);
   /**
    * 加载远程json文件
    * @param {string} sourceurl
    * @returns 返回json对象
    */
   const loadResource = async (sourceurl: string) => {
-    setisLoading(true)
+    setisLoading(true);
     const response = await fetch(sourceurl);
     const data = await response.json();
-    setisLoading(false)
+    setisLoading(false);
     return data;
   };
 
   const [anim, setAnim] = useState({} as AnimationRealItem);
   const [nowFrame, setnowFrame] = useState(0);
 
-  const init = (): Promise<AnimationRealItem> => {
+  const isUnmounted = useRef(false);
+
+  const init = (source: string): Promise<AnimationRealItem> => {
     return new Promise((resolve) => {
       /**
        *初始化动画
@@ -63,9 +69,9 @@ const Detail: React.FC<IProps> = (props) => {
     });
   };
 
-  const initWithEvent = () => {
+  const initWithEvent = (source: string) => {
     let item = {} as AnimationRealItem;
-    init().then((res) => {
+    init(source).then((res) => {
       item = res;
       res.addEventListener("enterFrame", handler);
       setAnim(res);
@@ -75,16 +81,17 @@ const Detail: React.FC<IProps> = (props) => {
     };
   };
 
-  let isUnmounted = false;
   useEffect(() => {
-    initWithEvent();
+    if (lottieSourceUrl) {
+      initWithEvent(lottieSourceUrl);
+    }
     return () => {
-      isUnmounted = true;
+      isUnmounted.current = true;
     };
-  }, [source, name]); // 当source, name改变时执行
+  }, [lottieSourceUrl]);
 
   const handler = (i: { currentTime: number }) => {
-    if (!isUnmounted) {
+    if (!isUnmounted.current) {
       setnowFrame(Math.floor(i.currentTime));
     }
   };
@@ -159,7 +166,7 @@ const Detail: React.FC<IProps> = (props) => {
   const [isdestory, setisdestory] = useState(false);
   const destroyAnim = () => {
     if (isdestory) {
-      initWithEvent();
+      initWithEvent(source);
     } else {
       anim.destroy();
     }
