@@ -3,10 +3,12 @@ ul {
   li {
     list-style: none;
     margin-top: 10px;
+    padding-left: 20px;
+    margin-bottom: 15px;
     a {
       text-decoration: underline;
       font-size: 18px;
-      color: brown;
+      color: rgb(8, 8, 8);
     }
   }
 }
